@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     //
     public enum stages
     {
-        Stage1, Stage2, Stage3
+        Stage1, Stage2
     }
     public enum monsterTypes
     {
@@ -69,12 +69,26 @@ public class GameManager : MonoBehaviour
         while(true)
         {
             GameObject go;
-            if (monsterCount - killCount < 8)
+            if (monsterCount - killCount < 15)
             {
-                rand = Random.Range(0, (int)stage);
-                go = (GameObject)Instantiate(Resources.Load($"Prefab/{(monsterTypes)rand}"));
+                rand = Random.Range(0, (int)stage + 4);
                 monsterCount++;
-                go.AddComponent<monster_a>();
+                switch(rand)
+                {
+                    case 0:
+                    case 1:
+                        go = (GameObject)Instantiate(Resources.Load($"Prefab/{(monsterTypes)0}"));
+                        go.AddComponent<monster_a>();
+                        break;
+                    case 2:
+                        go = (GameObject)Instantiate(Resources.Load($"Prefab/{(monsterTypes)1}"));
+                        go.AddComponent<monster_b>();
+                        break;
+                    case 3:
+                        go = (GameObject)Instantiate(Resources.Load($"Prefab/{(monsterTypes)2}"));
+                        go.AddComponent<monster_c>();
+                        break;
+                }
             }
             rand = Random.Range(0, 4);
             if (rand == 0)

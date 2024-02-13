@@ -1,45 +1,71 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 public class Player : MonoBehaviour
 {
     public int hp;
     private float moveSpeed;
-    private int damage;
+    public int damage;
     private float attackSpeed;
     public float fuel;
     private Rigidbody2D rigid;
+    private Animator anime;
+    private bool beAttack;
     private void Start()
     {
         init();
         StartCoroutine(attack());
+        StartCoroutine(useFuel());
         transform.position = new Vector3(0, -4);
     }
     private void init()
     {
         rigid = transform.gameObject.GetComponent<Rigidbody2D>();
+        anime = transform.gameObject.AddComponent<Animator>();
+        anime.runtimeAnimatorController = (AnimatorController)Resources.Load("Animation/Player/Player");
         rigid.gravityScale = 0;
         rigid.constraints = RigidbodyConstraints2D.FreezeAll;
         hp = 100;
         fuel = 100;
         moveSpeed = 2f;
-        damage = 2; // gameManager.damageLevel
-        attackSpeed = 0.75f;
+        damage = 5; // gameManager.damageLevel
+        attackSpeed = 0.55f;
     }
     private void Update()
     {
-        if(fuel <= 0) { return; }
-        if(hp <= 0) { return; }
+        if (fuel <= 0) { return; }
+        if (hp <= 0) { return; }
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
         if (h != 0 || v != 0) { transform.position += new Vector3(h * moveSpeed, v * moveSpeed, 0) * Time.deltaTime; }
+        if (Input.GetKey(KeyCode.Space))
+        {
+            beAttack = true;
+        }
+        else
+        {
+            beAttack = false;
+        }
     }
     private IEnumerator attack()
     {
+        while (true)
+        {
+            if (beAttack)
+            {
+                GameObject go = (GameObject)Instantiate(Resources.Load("Prefab/PlayerBullet"));
+                go.AddComponent<Player_Projectile>();
+            }
+            yield return new WaitForSeconds(attackSpeed);
+        }
+    }
+    private IEnumerator useFuel()
+    {
         while(true)
         {
-            //instantiate();
-            yield return new WaitForSeconds(attackSpeed);
+            fuel--;
+            yield return new WaitForSeconds(0.8f);
         }
     }
     public void attacked(int damage)
@@ -47,11 +73,13 @@ public class Player : MonoBehaviour
         hp -= damage;
         if(hp <= 0)
         {
-            death();
+            anime.Play("death");
+            Invoke("death", 0.75f);
         }
     }
     private void death()
     {
-        //UI, socre;
+        Destroy(transform.gameObject);
+        GameManager.Game.gameEnd();
     }
 }

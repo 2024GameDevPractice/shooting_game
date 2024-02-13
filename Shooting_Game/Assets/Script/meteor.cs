@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
+
 public class meteor : MonoBehaviour
 {
     private BoxCollider2D boxCollider;
     private int damage;
-    private int hitCount;
+    public int hitCount;
     private float moveSpeed;
+    private int score = 10;
     void Start()
     {
         float rand = Random.Range(-3.5f, 3.5f);
@@ -15,7 +18,7 @@ public class meteor : MonoBehaviour
         moveSpeed = 2.5f;
         hitCount = 3;
         boxCollider = transform.gameObject.AddComponent<BoxCollider2D>();
-        rand = Random.Range(1, 3);
+        rand = Random.Range(1, 2);
         transform.localScale = new Vector3(rand, rand);
     }
     void Update()
@@ -31,6 +34,7 @@ public class meteor : MonoBehaviour
             if (col.gameObject.name == "Player(Clone)")
             {
                 GameManager.Game.player.attacked(damage);
+                GameManager.Game.score += score;
                 Destroy(transform.gameObject);
             }
         }
