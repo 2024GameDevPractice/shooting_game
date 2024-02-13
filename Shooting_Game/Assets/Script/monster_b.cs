@@ -10,7 +10,7 @@ public class monster_b : Monster
         attackSpeed = 4.5f;
         moveSpeed = 0.3f;
         damage = 12;
-        hp = 25;
+        hp = 20;
         rand = Random.Range(0, 2);
         if (rand == 0) { rand = -1; }
         transform.position = new Vector3(rand * 4, 9, 0);
@@ -20,13 +20,13 @@ public class monster_b : Monster
     {
         if(transform.position.y < 3 )
         {
-            transform.position += new Vector3(moveSpeed * (-rand) * 2, moveSpeed * -2) * Time.deltaTime;
+            transform.position += new Vector3(moveSpeed * rand * 2, moveSpeed * -3) * Time.deltaTime;
         }
         else
         {
-            transform.position += new Vector3(moveSpeed * (-rand), moveSpeed * -2, 0) * Time.deltaTime;
+            transform.position += new Vector3(moveSpeed * (-rand) * 5, moveSpeed * -3.25f, 0) * Time.deltaTime;
         }
-        if(Mathf.Abs(transform.position.x) > 5)
+        if(Mathf.Abs(transform.position.x) > 6.15f)
         {
             Destroy(transform.gameObject);
         }

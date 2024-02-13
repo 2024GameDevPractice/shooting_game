@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public float fuel;
     private Rigidbody2D rigid;
     private Animator anime;
+    public List<Skill> skills = new List<Skill>();
     private bool beAttack;
     private void Start()
     {
@@ -24,12 +25,14 @@ public class Player : MonoBehaviour
         rigid = transform.gameObject.GetComponent<Rigidbody2D>();
         anime = transform.gameObject.AddComponent<Animator>();
         anime.runtimeAnimatorController = (AnimatorController)Resources.Load("Animation/Player/Player");
+        skills.Add(transform.gameObject.AddComponent<Skill1>());
+        skills.Add(transform.gameObject.AddComponent<Skill2>());
         rigid.gravityScale = 0;
         rigid.constraints = RigidbodyConstraints2D.FreezeAll;
         hp = 100;
         fuel = 100;
         moveSpeed = 2f;
-        damage = 5; // gameManager.damageLevel
+        damage = 5;
         attackSpeed = 0.55f;
     }
     private void Update()
@@ -47,15 +50,26 @@ public class Player : MonoBehaviour
         {
             beAttack = false;
         }
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            skills[0].useSkill();
+        }
+        else if(Input.GetKeyDown(KeyCode.E))
+        {
+            skills[1].useSkill();
+        }
     }
     private IEnumerator attack()
     {
         while (true)
         {
-            if (beAttack)
+            if (fuel > 0 && hp > 0)
             {
-                GameObject go = (GameObject)Instantiate(Resources.Load("Prefab/PlayerBullet"));
-                go.AddComponent<Player_Projectile>();
+                if (beAttack)
+                {
+                    GameObject go = (GameObject)Instantiate(Resources.Load("Prefab/PlayerBullet"));
+                    go.AddComponent<Player_Projectile>();
+                }
             }
             yield return new WaitForSeconds(attackSpeed);
         }
@@ -70,11 +84,14 @@ public class Player : MonoBehaviour
     }
     public void attacked(int damage)
     {
-        hp -= damage;
-        if(hp <= 0)
+        if(!GameManager.Game.invincibility)
         {
-            anime.Play("death");
-            Invoke("death", 0.75f);
+            hp -= damage;
+            if (hp <= 0)
+            {
+                anime.Play("death");
+                Invoke("death", 0.75f);
+            }
         }
     }
     private void death()

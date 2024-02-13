@@ -18,7 +18,6 @@ public class GameManager : MonoBehaviour
             game = go.GetComponent<GameManager>();
         }
     }
-    //
     public enum stages
     {
         Stage1, Stage2
@@ -32,6 +31,7 @@ public class GameManager : MonoBehaviour
     public int damageLevel;
     public int killCount;
     public int monsterCount;
+    public bool invincibility;
     private float spawnDelay;
     public Player player;
     public Stopwatch stopWatch;
@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
         killCount = 0;
         spawnDelay = 2;
         monsterCount = 0;
+        invincibility = false;
         stage = stages.Stage1;
         stopWatch = new();
     }
@@ -97,6 +98,42 @@ public class GameManager : MonoBehaviour
                 go.AddComponent<meteor>();
             }
             yield return new WaitForSeconds(spawnDelay);
+        }
+    }
+    public IEnumerator isInvincibility()
+    {
+        int sec = stopWatch.Elapsed.Seconds;
+        while(invincibility)
+        {
+            if(sec + 5 == stopWatch.Elapsed.Seconds) { invincibility = false; }
+            yield return null;
+        }
+    }
+    public void Update()
+    {
+        if(Input.GetKey(KeyCode.F1))
+        {
+
+        }
+        else if(Input.GetKey(KeyCode.F2))
+        {
+
+        }
+        else if(Input.GetKey(KeyCode.F3))
+        {
+
+        }
+        else if(Input.GetKey(KeyCode.F4))
+        {
+
+        }
+        else if(Input.GetKey(KeyCode.F5))
+        {
+
+        }
+        else if(Input.GetKey(KeyCode.F6))
+        {
+
         }
     }
 }
