@@ -4,6 +4,7 @@ using UnityEditor.Animations;
 using UnityEngine;
 public class Player : MonoBehaviour
 {
+    protected int skillCount;
     public int hp;
     private float moveSpeed;
     public int damage;
@@ -37,6 +38,7 @@ public class Player : MonoBehaviour
         damage = 5;
         attackSpeed = 0.55f;
         fielldtime = 0;
+        skillCount = 4;
     }
     private void Update()
     {
@@ -53,21 +55,26 @@ public class Player : MonoBehaviour
         {
             beAttack = false;
         }
-        if(Input.GetKeyDown(KeyCode.Q))
+        if(skillCount > 0)
         {
-            if(!skill1.inCooltime)
+            if (Input.GetKeyDown(KeyCode.Q))
             {
-                skill1.StartCoroutine(skill1.useSkill());
+                if (!skill1.inCooltime)
+                {
+                    skillCount--;
+                    skill1.StartCoroutine(skill1.useSkill());
+                }
+                //else
             }
-            //else
-        }
-        else if(Input.GetKeyDown(KeyCode.E))
-        {
-            if(!skill2.inCooltime)
+            else if (Input.GetKeyDown(KeyCode.E))
             {
-                skill2.StartCoroutine(skill2.useSkill());
+                if (!skill2.inCooltime)
+                {
+                    skillCount--;
+                    skill2.StartCoroutine(skill2.useSkill());
+                }
+                //else
             }
-            //else
         }
     }
     private IEnumerator attack()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Skill2 : Skill
 {
-    private int damage;
+    private int damage;    
     protected override void init()
     {
         skillCooltime = 25f;

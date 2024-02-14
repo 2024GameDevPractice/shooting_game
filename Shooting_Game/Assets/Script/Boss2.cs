@@ -24,10 +24,41 @@ public class Boss2 : BossMonsterController
     }
     protected override IEnumerator setState()
     {
-        int cooltime = 6;
+        int cooltime = 6; while (true)
+        {
+            if (hp < 125)
+            {
+                cooltime = 3;
+            }
+            yield return new WaitForSeconds(cooltime);
+            int rand = Random.Range(0, 4);
+            switch (rand)
+            {
+                case 0:
+                    isAttack = true;
+                    break;
+                case 1:
+                    isAttack = false;
+                    break;
+                case 2:
+                    isAttack = false;
+                    break;
+            }
+        }
     }
     protected override IEnumerator defaultAttack()
     {
-        
+        while (true)
+        {
+            if(GameManager.Game.player.hp <= 0)
+            {
+                yield return null;
+            }
+            else
+            {
+                GameObject go = (GameObject)Instantiate(Resources.Load($"Prefab/{bulletName1}"), transform.position, Quaternion.identity);
+                //go.
+            }
+        }
     }
 }
