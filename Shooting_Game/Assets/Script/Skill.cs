@@ -3,22 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Skill : MonoBehaviour
 {
-    public int skillCooltimeInt;
-    public float skillCooltimeFloat;
-    public int whenToUseInt;
-    public float whenToUseFloat;
+    protected float skillCooltime;
+    protected float fielldTime;
+    protected float duration;
     public bool inCooltime;
+    protected string prefabName;
     protected GameObject go;
     protected void Start()
     {
         inCooltime = false;
+        init();
     }
-    public virtual void useSkill()
+    protected virtual void init() { }
+    public virtual IEnumerator useSkill() { yield return null; }
+    protected IEnumerator coolTime()
     {
-        if(inCooltime)
+        fielldTime = 0;
+        while(true)
         {
-            return;
+            if(fielldTime < skillCooltime)
+            {
+                fielldTime += Time.deltaTime;
+                yield return null;
+            }
+            else
+            {
+                inCooltime = false;
+                yield break;
+            }
         }
-        inCooltime = true;
     }
 }

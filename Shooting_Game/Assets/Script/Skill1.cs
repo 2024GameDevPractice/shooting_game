@@ -1,30 +1,42 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 public class Skill1 : Skill
 {
-    private SpriteRenderer render;
-    public override void useSkill()
+    private int healAmount;
+    protected override void init()
     {
-        base.useSkill();
-        go = (GameObject)Instantiate(Resources.Load("Prefab/Skill1"), transform.position, new Quaternion(0, 0, 0, 0));
-        render = go.GetComponent<SpriteRenderer>();
-        render.flipX = true;
-        StartCoroutine(invisible());
+        skillCooltime = 15;
+        healAmount = 10;
+        duration = 1;
+        prefabName = "Skill1";
     }
-    private IEnumerator invisible()
+    public override IEnumerator useSkill()
     {
-        int i = 255;
-        while(i != 0)
+        inCooltime = true;
+        fielldTime = 0;
+        GameObject go = (GameObject)Instantiate(Resources.Load($"Prefab/{prefabName}"), GameManager.Game.player.transform.position, Quaternion.identity);
+        if(GameManager.Game.player.hp != 100)
         {
-            i -= 2;
-            render.color = new Color(render.color.r, render.color.g, render.color.b, i);
-            if(i == 1)
+            if (GameManager.Game.player.hp > 85)
             {
-                Destroy(go);
-                go = null;
+                GameManager.Game.player.hp = 100;
             }
-            yield return new WaitForSecondsRealtime(0.02f);
+            else
+            {
+                GameManager.Game.player.hp += 15;
+            }
         }
+        while(fielldTime <= duration)
+        {
+            fielldTime += Time.deltaTime;
+            go.transform.position += new Vector3(0, 1, 0) * Time.deltaTime;
+            yield return null;
+        }
+        Destroy(go);
+        yield return StartCoroutine(coolTime());
     }
 }

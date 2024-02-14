@@ -10,8 +10,9 @@ public class Player : MonoBehaviour
     private float attackSpeed;
     public float fuel;
     private Rigidbody2D rigid;
+    private Skill1 skill1;
+    private Skill2 skill2;
     private Animator anime;
-    public List<Skill> skills = new List<Skill>();
     private bool beAttack;
     private void Start()
     {
@@ -25,8 +26,8 @@ public class Player : MonoBehaviour
         rigid = transform.gameObject.GetComponent<Rigidbody2D>();
         anime = transform.gameObject.AddComponent<Animator>();
         anime.runtimeAnimatorController = (AnimatorController)Resources.Load("Animation/Player/Player");
-        skills.Add(transform.gameObject.AddComponent<Skill1>());
-        skills.Add(transform.gameObject.AddComponent<Skill2>());
+        skill1 = transform.gameObject.AddComponent<Skill1>();
+        skill2 = transform.gameObject.AddComponent<Skill2>();
         rigid.gravityScale = 0;
         rigid.constraints = RigidbodyConstraints2D.FreezeAll;
         hp = 100;
@@ -52,11 +53,19 @@ public class Player : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.Q))
         {
-            skills[0].useSkill();
+            if(!skill1.inCooltime)
+            {
+                skill1.StartCoroutine(skill1.useSkill());
+            }
+            //else
         }
         else if(Input.GetKeyDown(KeyCode.E))
         {
-            skills[1].useSkill();
+            if(!skill2.inCooltime)
+            {
+                skill2.StartCoroutine(skill2.useSkill());
+            }
+            //else
         }
     }
     private IEnumerator attack()
