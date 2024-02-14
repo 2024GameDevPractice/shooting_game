@@ -34,7 +34,7 @@ public abstract class Monster : MonoBehaviour
         while(active)
         {
             GameObject go = (GameObject)Instantiate(Resources.Load($"Prefab/Projectile{type}"), transform.position, new Quaternion(0,0,0,0));
-            Projectile projectiled = go.AddComponent<Projectile>();
+            Projectile1 projectiled = go.AddComponent<Projectile1>();
             projectiled.setDamage(damage);
             yield return new WaitForSeconds(attackSpeed);
         }

@@ -30,7 +30,28 @@ public class Skill2 : Skill
         }
         Destroy(go);
         Monster[] monsters = GameObject.FindObjectsOfType<Monster>();
-        Projectile[] projectiles = GameObject.FindObjectsOfType<Projectile>();
+        Projectile1[] projectiles = GameObject.FindObjectsOfType<Projectile1>();
+        foreach(Monster mon in monsters)
+        {
+            GameObject obj = mon.gameObject;
+            string name = obj.name.Replace("(Clone)", "");
+            switch(name)
+            {
+                case "a":
+                    obj.GetComponent<monster_a>().attacked(damage);
+                    break;
+                case "b":
+                    obj.GetComponent<monster_b>().attacked(damage);
+                    break;
+                case "c":
+                    obj.GetComponent<monster_c>().attacked(damage);
+                    break;
+            }
+        }
+        foreach(Projectile1 pro in projectiles)
+        {
+            Destroy(pro.gameObject);
+        }
         yield return StartCoroutine("coolTime");
     }
 }

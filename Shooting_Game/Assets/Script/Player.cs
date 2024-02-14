@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     private Skill1 skill1;
     private Skill2 skill2;
     private Animator anime;
+    private float fielldtime;
     private bool beAttack;
     private void Start()
     {
@@ -35,6 +36,7 @@ public class Player : MonoBehaviour
         moveSpeed = 2f;
         damage = 5;
         attackSpeed = 0.55f;
+        fielldtime = 0;
     }
     private void Update()
     {
@@ -72,15 +74,17 @@ public class Player : MonoBehaviour
     {
         while (true)
         {
-            if (fuel > 0 && hp > 0)
+            fielldtime += Time.deltaTime;
+            if (fuel > 0 && hp > 0 && fielldtime > attackSpeed)
             {
                 if (beAttack)
                 {
+                    fielldtime = 0;
                     GameObject go = (GameObject)Instantiate(Resources.Load("Prefab/PlayerBullet"));
                     go.AddComponent<Player_Projectile>();
                 }
             }
-            yield return new WaitForSeconds(attackSpeed);
+            yield return null;
         }
     }
     private IEnumerator useFuel()

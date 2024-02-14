@@ -41,6 +41,20 @@ public class Player_Projectile : MonoBehaviour
                 Destroy(transform.gameObject);
                 break;
             }
+            else if(col.gameObject.name == "Boss1(Clone)")
+            {
+                Boss1 boss = col.gameObject.GetComponent<Boss1>();
+                boss.attacked(GameManager.Game.player.damage);
+                Destroy(transform.gameObject);
+                break;
+            }
+            else if(col.gameObject.name == "Boss2(Clone)")
+            {
+                Boss2 boss = col.gameObject.GetComponent<Boss2>();
+                boss.attacked(GameManager.Game.player.damage);
+                Destroy(transform.gameObject);
+                break;
+            }
             else if (col.gameObject.name == "meteor(Clone)")
             {
                 meteor met = col.gameObject.GetComponent<meteor>();

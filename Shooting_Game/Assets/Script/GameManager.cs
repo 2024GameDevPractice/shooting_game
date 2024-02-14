@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public int killCount;
     public int monsterCount;
     public bool invincibility;
+    public bool spawnBoss; 
     private float spawnDelay;
     public Player player;
     public Stopwatch stopWatch;
@@ -49,6 +50,7 @@ public class GameManager : MonoBehaviour
         invincibility = false;
         stage = stages.Stage1;
         stopWatch = new();
+        spawnBoss = false;
     }
     public void gameStart()
     {
@@ -70,7 +72,13 @@ public class GameManager : MonoBehaviour
         while(true)
         {
             GameObject go;
-            if (monsterCount - killCount < 15)
+            if(stopWatch.Elapsed.Minutes == 0 && stopWatch.Elapsed.Seconds == 4 && !spawnBoss)
+            {
+                spawnBoss = true;
+                go = (GameObject)Instantiate(Resources.Load($"Prefab/Boss{(int)stage + 1}"));
+                go.AddComponent<Boss1>();
+            }
+            if (monsterCount - killCount < 15 && !spawnBoss)
             {
                 rand = Random.Range(0, (int)stage + 4);
                 monsterCount++;

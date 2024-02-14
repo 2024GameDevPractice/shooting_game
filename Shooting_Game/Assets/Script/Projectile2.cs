@@ -1,20 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class Projectile : MonoBehaviour
+public class Projectile2 : MonoBehaviour
 {
     public int damage;
     private float moveSpeed;
     private float size = 0.41f;
+    private Vector3 vec;
     private void Start()
     {
         moveSpeed = 1.85f;
+        vec = (GameManager.Game.player.transform.position - transform.position).normalized;
     }
     private void Update()
     {
-        transform.position += new Vector3(0, -moveSpeed, 0) * Time.deltaTime;
+        transform.position += vec * moveSpeed * Time.deltaTime;
         Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, new Vector2(size, size), default);
-        foreach(Collider2D col in colliders)
+        foreach (Collider2D col in colliders)
         {
             if (col.gameObject.name == "Player(Clone)")
             {
