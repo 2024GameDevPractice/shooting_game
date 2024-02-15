@@ -4,6 +4,7 @@ using TMPro;
 using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
@@ -23,6 +24,7 @@ public class Player : MonoBehaviour
     private TMP_Text[] texts;
     private TMP_Text text1;
     private TMP_Text text2;
+    private TMP_Text text3;
     private Slider[] sliders;
     private Slider slider1;
     private Slider slider2;
@@ -37,6 +39,33 @@ public class Player : MonoBehaviour
     {
         texts = FindObjectsOfType<TMP_Text>();
         sliders = FindObjectsOfType<Slider>();
+        foreach (TMP_Text text in texts)
+        {
+            switch(text.gameObject.name)
+            {
+                case "HP":
+                    text2 = text;
+                    break;
+                case "LOG":
+                    text1 = text;
+                    break;
+                case "Score":
+                    text3 = text;
+                    break;
+            }
+        }
+        foreach(Slider slider in sliders)
+        {
+            switch(slider.gameObject.name)
+            {
+                case "HP":
+                    slider1 = slider;
+                    break;
+                case "Slider":
+                    slider2 = slider;
+                    break;
+            }
+        }
         rigid = transform.gameObject.GetComponent<Rigidbody2D>();
         anime = transform.gameObject.AddComponent<Animator>();
         anime.runtimeAnimatorController = (AnimatorController)Resources.Load("Animation/Player/Player");
@@ -54,6 +83,7 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
+        text3.text = "Score : " + GameManager.Game.score;
         if (fuel <= 0) { return; }
         if (hp <= 0) { return; }
         float h = Input.GetAxisRaw("Horizontal");
@@ -161,7 +191,7 @@ public class Player : MonoBehaviour
         while(true)
         {
             fuel--;
-            //sliders[0].value = fuel / 100;
+            slider2.value = fuel / 100;
             yield return new WaitForSeconds(0.8f);
         }
     }
@@ -170,7 +200,7 @@ public class Player : MonoBehaviour
         if(!GameManager.Game.invincibility)
         {
             hp -= damage;
-            //sliders[1].value = hp / 100;
+            slider1.value = (float)hp / 100;
             if (hp <= 0)
             {
                 anime.Play("death");
