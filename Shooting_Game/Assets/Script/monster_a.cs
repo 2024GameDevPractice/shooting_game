@@ -29,11 +29,11 @@ public class monster_a : Monster
 
         if(transform.position.x >= 4)
         {
-            rand = 1;
+            rand = 1 + Random.Range(0.1f,0.3f);
         }
         else if (transform.position.x <= -4)
         {
-            rand = -1;
+            rand = -1 + Random.Range(0.1f, 0.3f);
         }
     }
 }

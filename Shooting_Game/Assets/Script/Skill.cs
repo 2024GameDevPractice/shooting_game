@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Skill : MonoBehaviour
 {
-    protected float skillCooltime;
-    protected float fielldTime;
+    public float skillCooltime;
+    public float fielldTime;
     protected float duration;
     public bool inCooltime;
     protected string prefabName;

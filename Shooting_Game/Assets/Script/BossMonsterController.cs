@@ -9,6 +9,7 @@ public class BossMonsterController : MonoBehaviour
     protected float moveSpeed;
     protected float attackSpeed;
     protected float fielldtime;
+    [SerializeField]
     protected int hp;
     protected int damage;
     protected int increaseScore;
@@ -61,6 +62,20 @@ public class BossMonsterController : MonoBehaviour
         GameManager.Game.killCount++;
         GameManager.Game.score += increaseScore;
         dropItem();
+        GameManager.Game.stopWatch.Start();
+        GameManager.Game.spawnBoss = false;
+        if (GameManager.Game.player.hp != 100)
+        {
+            if (GameManager.Game.player.hp > 85)
+            {
+                GameManager.Game.player.hp = 100;
+            }
+            else
+            {
+                GameManager.Game.player.hp += 15;
+            }
+        }
+        GameManager.Game.player.fuel += 30;
         Destroy(transform.gameObject);
     }
 }

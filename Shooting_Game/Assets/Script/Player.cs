@@ -1,21 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor.Animations;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
 public class Player : MonoBehaviour
 {
-    protected int skillCount;
+    public int skillCount;
     public int hp;
     private float moveSpeed;
     public int damage;
     private float attackSpeed;
     public float fuel;
     private Rigidbody2D rigid;
-    private Skill1 skill1;
-    private Skill2 skill2;
+    public Skill1 skill1;
+    public Skill2 skill2;
     private Animator anime;
     private float fielldtime;
     private bool beAttack;
+    private TMP_Text[] texts;
+    private TMP_Text text1;
+    private TMP_Text text2;
+    private Slider[] sliders;
+    private Slider slider1;
+    private Slider slider2;
     private void Start()
     {
         init();
@@ -25,6 +35,8 @@ public class Player : MonoBehaviour
     }
     private void init()
     {
+        texts = FindObjectsOfType<TMP_Text>();
+        sliders = FindObjectsOfType<Slider>();
         rigid = transform.gameObject.GetComponent<Rigidbody2D>();
         anime = transform.gameObject.AddComponent<Animator>();
         anime.runtimeAnimatorController = (AnimatorController)Resources.Load("Animation/Player/Player");
@@ -46,7 +58,28 @@ public class Player : MonoBehaviour
         if (hp <= 0) { return; }
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
-        if (h != 0 || v != 0) { transform.position += new Vector3(h * moveSpeed, v * moveSpeed, 0) * Time.deltaTime; }
+        if (h != 0)
+        {
+            if(h == 1 && !(transform.position.x > 3.5f))
+            {
+                transform.position += new Vector3(h * moveSpeed, 0, 0) * Time.deltaTime;
+            }
+            else if(h == -1 && !(transform.position.x < -3.5f))
+            {
+                transform.position += new Vector3(h * moveSpeed, 0, 0) * Time.deltaTime;
+            }
+        }
+        if (v != 0)
+        {
+            if (v == 1 && !(transform.position.y > 7f))
+            {
+                transform.position += new Vector3(0, v * moveSpeed, 0) * Time.deltaTime;
+            }
+            else if (v == -1 && !(transform.position.y < -7f))
+            {
+                transform.position += new Vector3(0, v * moveSpeed, 0) * Time.deltaTime;
+            }
+        }
         if (Input.GetKey(KeyCode.Space))
         {
             beAttack = true;
@@ -55,27 +88,56 @@ public class Player : MonoBehaviour
         {
             beAttack = false;
         }
-        if(skillCount > 0)
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            if (Input.GetKeyDown(KeyCode.Q))
+            if(skillCount > 0)
             {
                 if (!skill1.inCooltime)
                 {
                     skillCount--;
                     skill1.StartCoroutine(skill1.useSkill());
                 }
-                //else
+                else
+                {
+                    text1.text = "스킬 재사용 대기 중 입니다.";
+                    text1.gameObject.SetActive(true);
+                    Invoke("invisible", 1f);
+                }
             }
-            else if (Input.GetKeyDown(KeyCode.E))
+            else
+            {
+                text1.text = "스킬 사용 가능 횟수를 다 사용했습니다.";
+                text1.gameObject.SetActive(true);
+                Invoke("invisible", 1f);
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            if(skillCount > 0)
             {
                 if (!skill2.inCooltime)
                 {
                     skillCount--;
                     skill2.StartCoroutine(skill2.useSkill());
                 }
-                //else
+                else
+                {
+                    text1.text = "스킬 재사용 대기 중 입니다.";
+                    text1.gameObject.SetActive(true);
+                    Invoke("invisible", 1f);
+                }
+            }
+            else
+            {
+                text1.text = "스킬 사용 가능 횟수를 다 사용했습니다.";
+                text1.gameObject.SetActive(true);
+                Invoke("invisible", 1f);
             }
         }
+    }
+    private void invisible()
+    {
+        text1.gameObject.SetActive(false);
     }
     private IEnumerator attack()
     {
@@ -99,6 +161,7 @@ public class Player : MonoBehaviour
         while(true)
         {
             fuel--;
+            //sliders[0].value = fuel / 100;
             yield return new WaitForSeconds(0.8f);
         }
     }
@@ -107,6 +170,7 @@ public class Player : MonoBehaviour
         if(!GameManager.Game.invincibility)
         {
             hp -= damage;
+            //sliders[1].value = hp / 100;
             if (hp <= 0)
             {
                 anime.Play("death");

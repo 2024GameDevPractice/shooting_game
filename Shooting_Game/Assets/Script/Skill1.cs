@@ -17,7 +17,7 @@ public class Skill1 : Skill
     public override IEnumerator useSkill()
     {
         inCooltime = true;
-        fielldTime = 0;
+        float time = 0;
         GameObject go = (GameObject)Instantiate(Resources.Load($"Prefab/{prefabName}"), GameManager.Game.player.transform.position, Quaternion.identity);
         if(GameManager.Game.player.hp != 100)
         {
@@ -30,9 +30,9 @@ public class Skill1 : Skill
                 GameManager.Game.player.hp += healAmount;
             }
         }
-        while(fielldTime <= duration)
+        while(time <= duration)
         {
-            fielldTime += Time.deltaTime;
+            time += Time.deltaTime;
             go.transform.position += new Vector3(0, 1, 0) * Time.deltaTime;
             yield return null;
         }

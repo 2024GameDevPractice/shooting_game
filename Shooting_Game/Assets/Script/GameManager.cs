@@ -60,11 +60,13 @@ public class GameManager : MonoBehaviour
     }
     public void gameEnd()
     {
+        invincibility = true;
         stopWatch.Stop();
     }
     public void nextStage()
     {
-
+        stage = stages.Stage2;
+        player.skillCount = 4;
     }
     public IEnumerator SpawnMonster()
     {
@@ -72,15 +74,24 @@ public class GameManager : MonoBehaviour
         while(true)
         {
             GameObject go;
-            if(stopWatch.Elapsed.Minutes == 0 && stopWatch.Elapsed.Seconds == 4 && !spawnBoss)
+            if(stopWatch.Elapsed.Minutes == 1 * ((int)stage + 1) && stopWatch.Elapsed.Seconds == 0 && !spawnBoss)
             {
                 spawnBoss = true;
-                go = (GameObject)Instantiate(Resources.Load($"Prefab/Boss2"));
-                go.AddComponent<Boss2>();
+                string name = ((int)stage + 1).ToString();
+                go = (GameObject)Instantiate(Resources.Load($"Prefab/Boss{name}"));
+                if(stage == stages.Stage1)
+                {
+                    go.AddComponent<Boss1>();
+                }
+                else
+                {
+                    go.AddComponent<Boss2>();
+                }
+                stopWatch.Stop();
             }
             if (monsterCount - killCount < 15 && !spawnBoss)
             {
-                rand = Random.Range(0, (int)stage + 4);
+                rand = Random.Range(0, (int)stage + 3);
                 monsterCount++;
                 switch(rand)
                 {
@@ -99,11 +110,14 @@ public class GameManager : MonoBehaviour
                         break;
                 }
             }
-            rand = Random.Range(0, 4);
-            if (rand == 0)
+            if(!spawnBoss)
             {
-                go = (GameObject)Instantiate(Resources.Load("Prefab/meteor"));
-                go.AddComponent<meteor>();
+                rand = Random.Range(0, 4);
+                if (rand == 0)
+                {
+                    go = (GameObject)Instantiate(Resources.Load("Prefab/meteor"));
+                    go.AddComponent<meteor>();
+                }
             }
             yield return new WaitForSeconds(spawnDelay);
         }
@@ -121,27 +135,72 @@ public class GameManager : MonoBehaviour
     {
         if(Input.GetKey(KeyCode.F1))
         {
-
+            Monster[] monsters = GameObject.FindObjectsOfType<Monster>();
+            Projectile1[] projectiles1 = GameObject.FindObjectsOfType<Projectile1>();
+            Projectile2[] projectiles2 = GameObject.FindObjectsOfType<Projectile2>();
+            Projectile3[] projectiles3 = GameObject.FindObjectsOfType<Projectile3>();
+            Projectile4[] projectiles4 = GameObject.FindObjectsOfType<Projectile4>();
+            BossMonsterController boss = GameObject.FindObjectOfType<BossMonsterController>();
+            foreach(Monster mon in monsters)
+            {
+                mon.attacked(99999);
+            }
+            foreach(Projectile1 pro in projectiles1)
+            {
+                Destroy(pro.gameObject);
+            }
+            foreach (Projectile2 pro in projectiles2)
+            {
+                Destroy(pro.gameObject);
+            }
+            foreach (Projectile3 pro in projectiles3)
+            {
+                Destroy(pro.gameObject);
+            }
+            foreach (Projectile4 pro in projectiles4)
+            {
+                Destroy(pro.gameObject);
+            }
+            if(boss != null)
+            {
+                boss.attacked(9999999);
+            }
         }
         else if(Input.GetKey(KeyCode.F2))
         {
-
+            for(int i = 0; i < 4 - damageLevel; i++)
+            {
+                player.damage += 3;
+            }
         }
         else if(Input.GetKey(KeyCode.F3))
         {
-
+            player.skillCount = 0;
+            player.skill1.StopAllCoroutines();
+            player.skill1.inCooltime = false;
+            player.skill2.StopAllCoroutines();
+            player.skill2.inCooltime = false;
         }
         else if(Input.GetKey(KeyCode.F4))
         {
-
+            player.hp = 100;
         }
         else if(Input.GetKey(KeyCode.F5))
         {
-
+            player.fuel = 100;
         }
         else if(Input.GetKey(KeyCode.F6))
         {
-
+            BossMonsterController boss = GameObject.FindObjectOfType<BossMonsterController>();
+            if(boss!= null)
+            {
+                Destroy(boss.gameObject);
+            }
+            if(stage == stages.Stage2)
+            {
+                gameEnd();
+            }
+            else { nextStage(); }
         }
     }
 }

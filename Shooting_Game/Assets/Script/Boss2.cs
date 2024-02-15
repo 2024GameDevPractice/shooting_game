@@ -119,4 +119,16 @@ public class Boss2 : BossMonsterController
             }
         }
     }
+    protected override void death()
+    {
+        GameManager.Game.gameEnd();
+        GameManager.Game.StopAllCoroutines();
+        GameManager.Game.invincibility = true;
+        Monster[] monsters = GameObject.FindObjectsOfType<Monster>();
+        foreach(Monster mon in monsters)
+        {
+            mon.attacked(999);
+        }
+        base.death();
+    }
 }
