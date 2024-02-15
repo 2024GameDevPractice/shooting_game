@@ -34,9 +34,9 @@ public class Player : MonoBehaviour
         rigid.constraints = RigidbodyConstraints2D.FreezeAll;
         hp = 100;
         fuel = 100;
-        moveSpeed = 2f;
-        damage = 5;
-        attackSpeed = 0.55f;
+        moveSpeed = 2.65f;
+        damage = 3;
+        attackSpeed = 0.325f;
         fielldtime = 0;
         skillCount = 4;
     }

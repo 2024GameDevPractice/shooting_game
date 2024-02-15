@@ -56,7 +56,7 @@ public class BossMonsterController : MonoBehaviour
                 break;
         }
     }
-    protected void death()
+    protected virtual void death()
     {
         GameManager.Game.killCount++;
         GameManager.Game.score += increaseScore;

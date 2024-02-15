@@ -72,11 +72,11 @@ public class GameManager : MonoBehaviour
         while(true)
         {
             GameObject go;
-            if(stopWatch.Elapsed.Minutes == 1 && stopWatch.Elapsed.Seconds == 30 && !spawnBoss)
+            if(stopWatch.Elapsed.Minutes == 0 && stopWatch.Elapsed.Seconds == 4 && !spawnBoss)
             {
                 spawnBoss = true;
-                go = (GameObject)Instantiate(Resources.Load($"Prefab/Boss{(int)stage + 1}"));
-                go.AddComponent<Boss1>();
+                go = (GameObject)Instantiate(Resources.Load($"Prefab/Boss2"));
+                go.AddComponent<Boss2>();
             }
             if (monsterCount - killCount < 15 && !spawnBoss)
             {

@@ -15,7 +15,7 @@ public class Boss1 : BossMonsterController
         attackSpeed = 1.55f;
         fielldtime = 0;
         hp = 255;
-        damage = 15;
+        damage = 13;
         increaseScore = 200 * (int)GameManager.Game.stage;
         isAttack = true;
         x = Random.Range(0,2);
@@ -52,16 +52,13 @@ public class Boss1 : BossMonsterController
                 cooltime = 4;
             }
             yield return new WaitForSeconds(cooltime);
-            int rand = Random.Range(0, 4);
+            int rand = Random.Range(0, 2);
             switch(rand)
             {
                 case 0:
                     isAttack = true;
                     break;
                 case 1:
-                    isAttack = false;
-                    break;
-                case 2:
                     isAttack = false;
                     break;
             }
@@ -77,13 +74,13 @@ public class Boss1 : BossMonsterController
             }
             else
             {
-                if (!isAttack)
+                if (isAttack)
                 {
-                    yield return null;
+                    yield return new WaitForSeconds(attackSpeed);
                 }
                 else
                 {
-                    GameObject go = (GameObject)Instantiate(Resources.Load($"Prefab/{bulletName1}"), transform.position + new Vector3(-1.5f, -2.3f, 0), Quaternion.identity); ;
+                    GameObject go = (GameObject)Instantiate(Resources.Load($"Prefab/{bulletName1}"), transform.position + new Vector3(-1.5f, -2.3f, 0), Quaternion.identity);
                     go.transform.localScale = new Vector3(2,2,1);
                     go.AddComponent<Projectile1>().setDamage(damage);
                     go = (GameObject)Instantiate(Resources.Load($"Prefab/{bulletName1}"), transform.position + new Vector3(1.5f, -2.3f, 0), Quaternion.identity); ;
@@ -96,5 +93,10 @@ public class Boss1 : BossMonsterController
                 }
             }
         }
+    }
+    protected override void death()
+    {
+        GameManager.Game.nextStage();
+        base.death();
     }
 }

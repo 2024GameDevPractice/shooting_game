@@ -12,7 +12,7 @@ public class Player_Projectile : MonoBehaviour
         transform.position = GameManager.Game.player.gameObject.transform.position + new Vector3(0,0.75f,0);
         rigid = transform.gameObject.AddComponent<Rigidbody2D>();
         rigid.gravityScale = 0f;
-        speed = 5.75f;
+        speed = 12f;
     }
     private void Update()
     {

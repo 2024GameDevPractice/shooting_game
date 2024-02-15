@@ -21,13 +21,13 @@ public class Skill1 : Skill
         GameObject go = (GameObject)Instantiate(Resources.Load($"Prefab/{prefabName}"), GameManager.Game.player.transform.position, Quaternion.identity);
         if(GameManager.Game.player.hp != 100)
         {
-            if (GameManager.Game.player.hp > 85)
+            if (GameManager.Game.player.hp > 100 - healAmount)
             {
                 GameManager.Game.player.hp = 100;
             }
             else
             {
-                GameManager.Game.player.hp += 15;
+                GameManager.Game.player.hp += healAmount;
             }
         }
         while(fielldTime <= duration)
