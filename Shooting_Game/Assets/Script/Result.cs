@@ -47,6 +47,7 @@ public class Result : MonoBehaviour
         if(GameManager.Game.stage == GameManager.stages.Stage2 || GameManager.Game.player.hp <= 0)
         {
             GameManager.Game.gameEnd();
+            GameManager.Game.scoreboard.active();
             img.gameObject.SetActive(false);
         }
         else

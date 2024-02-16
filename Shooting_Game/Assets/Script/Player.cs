@@ -84,6 +84,7 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
+        attacked(0);
         text3.text = "Score : " + GameManager.Game.score;
         if (fuel <= 0) { return; }
         if (hp <= 0) { return; }

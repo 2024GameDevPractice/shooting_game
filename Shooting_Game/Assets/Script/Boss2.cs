@@ -14,7 +14,7 @@ public class Boss2 : BossMonsterController
         attackSpeed = 0.8f;
         fielldtime = 0;
         y = 1;
-        hp = 215;
+        hp = 215 + (GameManager.Game.damageLevel * 12);
         maxhp = hp;
         damage = 14;
         increaseScore = 215 * (int)GameManager.Game.stage;

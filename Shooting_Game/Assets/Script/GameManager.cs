@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
             go = new GameObject { name = "GameManager" };
             go.AddComponent<GameManager>();
             game = go.GetComponent<GameManager>();
+            DontDestroyOnLoad(go);
         }
     }
     public enum stages
@@ -26,6 +27,8 @@ public class GameManager : MonoBehaviour
     {
         a, b, c
     }
+    public List<string> board = new List<string>();
+    public Dictionary<string, int> scores = new Dictionary<string, int>();
     public int score;
     public int stageLevel;
     public int damageLevel;
@@ -39,11 +42,13 @@ public class GameManager : MonoBehaviour
     public Stopwatch stopWatch;
     public stages stage;
     public Result result;
+    public ScoreBoard scoreboard;
     public void gameSet()
     {
         GameObject go = (GameObject)Instantiate(Resources.Load("Prefab/Player"), new Vector3(0, -3.5f, 0), new Quaternion(0,0,0,0));
         player = go.GetComponent<Player>();
         result = GameObject.FindObjectOfType<Result>();
+        scoreboard = GameObject.FindObjectOfType<ScoreBoard>();
         score = 0;
         stageLevel = 1;
         damageLevel = 1;
@@ -78,10 +83,11 @@ public class GameManager : MonoBehaviour
             if(!stopSpawn)
             {
                 GameObject go;
-                if (stopWatch.Elapsed.Minutes == 0 * ((int)stage + 1) && stopWatch.Elapsed.Seconds == 0 && !spawnBoss)
+                if (stopWatch.Elapsed.Minutes == 1 * ((int)stage + 1) && stopWatch.Elapsed.Seconds == 0 && !spawnBoss)
                 {
                     spawnBoss = true;
                     string name = ((int)stage + 1).ToString();
+                    stopWatch.Stop();
                     monsterCount++;
                     go = (GameObject)Instantiate(Resources.Load($"Prefab/Boss{name}"));
                     if (stage == stages.Stage1)

@@ -18,10 +18,10 @@ public class Boss1 : BossMonsterController
         moveSpeed = 0.4f;
         attackSpeed = 1.45f;
         fielldtime = 0;
-        hp = 255;
+        hp = 255 + (GameManager.Game.damageLevel * 8);
         maxhp = hp;
         damage = 13;
-        increaseScore = 200 * (int)GameManager.Game.stage;
+        increaseScore = 200 * (int)GameManager.Game.stage ;
         isAttack = true;
         x = Random.Range(0,2);
         if(x == 0) { x = -1; }
