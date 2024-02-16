@@ -13,7 +13,7 @@ public class monster_c : Monster
         attackSpeed = 3.75f;
         moveSpeed = 0.6f;
         damage = 7;
-        hp = 30;
+        hp = 45;
         rand = Random.Range(0, 2);
         if (rand == 0) { rand = -1; }
         transform.position = new Vector3(rand * 4, 9, 0);

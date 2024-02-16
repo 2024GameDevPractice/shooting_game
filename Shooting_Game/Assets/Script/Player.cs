@@ -48,6 +48,7 @@ public class Player : MonoBehaviour
                     break;
                 case "LOG":
                     text1 = text;
+                    text.text = "";
                     break;
                 case "Score":
                     text3 = text;
@@ -210,6 +211,7 @@ public class Player : MonoBehaviour
     }
     private void death()
     {
+        GameManager.Game.result.active();
         Destroy(transform.gameObject);
         GameManager.Game.gameEnd();
     }

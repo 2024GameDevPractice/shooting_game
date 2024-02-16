@@ -15,6 +15,7 @@ public class Boss2 : BossMonsterController
         fielldtime = 0;
         y = 1;
         hp = 215;
+        maxhp = hp;
         damage = 14;
         increaseScore = 215 * (int)GameManager.Game.stage;
         isAttack = true;
@@ -71,12 +72,12 @@ public class Boss2 : BossMonsterController
     }
     protected override void Update()
     {
-        if(transform.position.x < -4)
+        if(transform.position.x < -3.5f)
         {
             x = -(x + Random.Range(0.1f, 0.3f));
             fielldtime = 0;
         }
-        else if(transform.position.x > 4)
+        else if(transform.position.x > 3.5f)
         {
             x = -(x + Random.Range(0.1f, 0.3f));
             fielldtime = 0;
@@ -121,7 +122,6 @@ public class Boss2 : BossMonsterController
     }
     protected override void death()
     {
-        GameManager.Game.gameEnd();
         GameManager.Game.StopAllCoroutines();
         GameManager.Game.invincibility = true;
         Monster[] monsters = GameObject.FindObjectsOfType<Monster>();

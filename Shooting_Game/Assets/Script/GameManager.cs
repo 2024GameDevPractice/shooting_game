@@ -32,15 +32,18 @@ public class GameManager : MonoBehaviour
     public int killCount;
     public int monsterCount;
     public bool invincibility;
-    public bool spawnBoss; 
+    public bool spawnBoss;
+    public bool stopSpawn = false;
     private float spawnDelay;
     public Player player;
     public Stopwatch stopWatch;
     public stages stage;
+    public Result result;
     public void gameSet()
     {
         GameObject go = (GameObject)Instantiate(Resources.Load("Prefab/Player"), new Vector3(0, -3.5f, 0), new Quaternion(0,0,0,0));
         player = go.GetComponent<Player>();
+        result = GameObject.FindObjectOfType<Result>();
         score = 0;
         stageLevel = 1;
         damageLevel = 1;
@@ -65,7 +68,6 @@ public class GameManager : MonoBehaviour
     }
     public void nextStage()
     {
-        stage = stages.Stage2;
         player.skillCount = 4;
     }
     public IEnumerator SpawnMonster()
@@ -73,50 +75,54 @@ public class GameManager : MonoBehaviour
         int rand = 0;
         while(true)
         {
-            GameObject go;
-            if(stopWatch.Elapsed.Minutes == 1 * ((int)stage + 1) && stopWatch.Elapsed.Seconds == 0 && !spawnBoss)
+            if(!stopSpawn)
             {
-                spawnBoss = true;
-                string name = ((int)stage + 1).ToString();
-                go = (GameObject)Instantiate(Resources.Load($"Prefab/Boss{name}"));
-                if(stage == stages.Stage1)
+                GameObject go;
+                if (stopWatch.Elapsed.Minutes == 0 * ((int)stage + 1) && stopWatch.Elapsed.Seconds == 0 && !spawnBoss)
                 {
-                    go.AddComponent<Boss1>();
+                    spawnBoss = true;
+                    string name = ((int)stage + 1).ToString();
+                    monsterCount++;
+                    go = (GameObject)Instantiate(Resources.Load($"Prefab/Boss{name}"));
+                    if (stage == stages.Stage1)
+                    {
+                        go.AddComponent<Boss1>();
+                    }
+                    else
+                    {
+                        go.AddComponent<Boss2>();
+                    }
+                    stopWatch.Stop();
                 }
-                else
+                if (monsterCount - killCount < 15 && !spawnBoss)
                 {
-                    go.AddComponent<Boss2>();
+                    rand = Random.Range(0, (int)stage + 3);
+                    monsterCount++;
+                    switch (rand)
+                    {
+                        case 0:
+                        case 1:
+                            go = (GameObject)Instantiate(Resources.Load($"Prefab/{(monsterTypes)0}"));
+                            go.AddComponent<monster_a>();
+                            break;
+                        case 2:
+                            go = (GameObject)Instantiate(Resources.Load($"Prefab/{(monsterTypes)1}"));
+                            go.AddComponent<monster_b>();
+                            break;
+                        case 3:
+                            go = (GameObject)Instantiate(Resources.Load($"Prefab/{(monsterTypes)2}"));
+                            go.AddComponent<monster_c>();
+                            break;
+                    }
                 }
-                stopWatch.Stop();
-            }
-            if (monsterCount - killCount < 15 && !spawnBoss)
-            {
-                rand = Random.Range(0, (int)stage + 3);
-                monsterCount++;
-                switch(rand)
+                if (!spawnBoss)
                 {
-                    case 0:
-                    case 1:
-                        go = (GameObject)Instantiate(Resources.Load($"Prefab/{(monsterTypes)0}"));
-                        go.AddComponent<monster_a>();
-                        break;
-                    case 2:
-                        go = (GameObject)Instantiate(Resources.Load($"Prefab/{(monsterTypes)1}"));
-                        go.AddComponent<monster_b>();
-                        break;
-                    case 3:
-                        go = (GameObject)Instantiate(Resources.Load($"Prefab/{(monsterTypes)2}"));
-                        go.AddComponent<monster_c>();
-                        break;
-                }
-            }
-            if(!spawnBoss)
-            {
-                rand = Random.Range(0, 4);
-                if (rand == 0)
-                {
-                    go = (GameObject)Instantiate(Resources.Load("Prefab/meteor"));
-                    go.AddComponent<meteor>();
+                    rand = Random.Range(0, 4);
+                    if (rand == 0)
+                    {
+                        go = (GameObject)Instantiate(Resources.Load("Prefab/meteor"));
+                        go.AddComponent<meteor>();
+                    }
                 }
             }
             yield return new WaitForSeconds(spawnDelay);

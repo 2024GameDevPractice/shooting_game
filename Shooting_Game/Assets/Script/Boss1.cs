@@ -19,6 +19,7 @@ public class Boss1 : BossMonsterController
         attackSpeed = 1.45f;
         fielldtime = 0;
         hp = 255;
+        maxhp = hp;
         damage = 13;
         increaseScore = 200 * (int)GameManager.Game.stage;
         isAttack = true;
@@ -109,7 +110,6 @@ public class Boss1 : BossMonsterController
     }
     protected override void death()
     {
-        GameManager.Game.nextStage();
         base.death();
     }
 }
