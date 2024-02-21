@@ -19,7 +19,7 @@ public class monster_a : Monster
         {
             position = -1;
         }
-        transform.position = new Vector3(position * 5.25f * rand, 3.1f + Random.Range(-2, 3), 0);
+        transform.position = new Vector3(position * 11.25f * rand, 3.1f + Random.Range(-4, 1), 0);
         hp = 15;
         base.Start();
     }
@@ -27,11 +27,11 @@ public class monster_a : Monster
     {
         transform.position += new Vector3(moveSpeed * (-rand), 0, 0) * Time.deltaTime;
 
-        if(transform.position.x >= 4)
+        if(transform.position.x >= 7.5f)
         {
             rand = 1 + Random.Range(0.1f,0.3f);
         }
-        else if (transform.position.x <= -4)
+        else if (transform.position.x <= -7.5f)
         {
             rand = -1 + Random.Range(0.1f, 0.3f);
         }

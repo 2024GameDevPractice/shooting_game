@@ -92,11 +92,11 @@ public class Player : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
         if (h != 0)
         {
-            if(h == 1 && !(transform.position.x > 3.5f))
+            if(h == 1 && !(transform.position.x > 8f))
             {
                 transform.position += new Vector3(h * moveSpeed, 0, 0) * Time.deltaTime;
             }
-            else if(h == -1 && !(transform.position.x < -3.5f))
+            else if(h == -1 && !(transform.position.x < -8f))
             {
                 transform.position += new Vector3(h * moveSpeed, 0, 0) * Time.deltaTime;
             }
@@ -120,50 +120,53 @@ public class Player : MonoBehaviour
         {
             beAttack = false;
         }
-        if (Input.GetKeyDown(KeyCode.Q))
+        if(GameManager.Game.stopSpawn)
         {
-            if(skillCount > 0)
+            if (Input.GetKeyDown(KeyCode.Q))
             {
-                if (!skill1.inCooltime)
+                if (skillCount > 0)
                 {
-                    skillCount--;
-                    skill1.StartCoroutine(skill1.useSkill());
+                    if (!skill1.inCooltime)
+                    {
+                        skillCount--;
+                        skill1.StartCoroutine(skill1.useSkill());
+                    }
+                    else
+                    {
+                        text1.text = "스킬 재사용 대기 중 입니다.";
+                        text1.gameObject.SetActive(true);
+                        Invoke("invisible", 1f);
+                    }
                 }
                 else
                 {
-                    text1.text = "스킬 재사용 대기 중 입니다.";
+                    text1.text = "스킬 사용 가능 횟수를 다 사용했습니다.";
                     text1.gameObject.SetActive(true);
                     Invoke("invisible", 1f);
                 }
             }
-            else
+            else if (Input.GetKeyDown(KeyCode.E))
             {
-                text1.text = "스킬 사용 가능 횟수를 다 사용했습니다.";
-                text1.gameObject.SetActive(true);
-                Invoke("invisible", 1f);
-            }
-        }
-        else if (Input.GetKeyDown(KeyCode.E))
-        {
-            if(skillCount > 0)
-            {
-                if (!skill2.inCooltime)
+                if (skillCount > 0)
                 {
-                    skillCount--;
-                    skill2.StartCoroutine(skill2.useSkill());
+                    if (!skill2.inCooltime)
+                    {
+                        skillCount--;
+                        skill2.StartCoroutine(skill2.useSkill());
+                    }
+                    else
+                    {
+                        text1.text = "스킬 재사용 대기 중 입니다.";
+                        text1.gameObject.SetActive(true);
+                        Invoke("invisible", 1f);
+                    }
                 }
                 else
                 {
-                    text1.text = "스킬 재사용 대기 중 입니다.";
+                    text1.text = "스킬 사용 가능 횟수를 다 사용했습니다.";
                     text1.gameObject.SetActive(true);
                     Invoke("invisible", 1f);
                 }
-            }
-            else
-            {
-                text1.text = "스킬 사용 가능 횟수를 다 사용했습니다.";
-                text1.gameObject.SetActive(true);
-                Invoke("invisible", 1f);
             }
         }
     }

@@ -6,6 +6,8 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 using System;
+using UnityEngine.SocialPlatforms.Impl;
+
 public class ScoreBoard : MonoBehaviour
 {
     [SerializeField]
@@ -37,38 +39,53 @@ public class ScoreBoard : MonoBehaviour
             int thr = 0;
             foreach (string str in GameManager.Game.board)
             {
-                if (fir < GameManager.Game.scores[str])
+                if (GameManager.Game.fs <= GameManager.Game.scores[str])
                 {
                     fname = str;
                     fir = GameManager.Game.scores[str];
+                    break;
                 }
-                else if (sec < GameManager.Game.scores[str])
+                else if (GameManager.Game.ss <= GameManager.Game.scores[str])
                 {
                     sname = str;
                     sec = GameManager.Game.scores[str];
+                    break;
                 }
-                else if (thr < GameManager.Game.scores[str])
+                else if (GameManager.Game.ts <= GameManager.Game.scores[str])
                 {
                     tname = str;
                     thr = GameManager.Game.scores[str];
+                    break;
                 }
             }
             foreach (TMP_Text text in texts)
             {
-                if (text.gameObject.name == "1")
+                if (fir != 0 || (fir == 0 && fname != null))
                 {
                     text.gameObject.SetActive(true);
-                    text.text = "name : " + fname + " score : " + fir.ToString();
+                    if (fname == "")
+                    { fname = " "; }
+                    GameManager.Game.f = fname;
+                    GameManager.Game.fs = fir;
+                    text.text = "name : " + GameManager.Game.f + " score : " + GameManager.Game.fs.ToString();
                 }
-                else if (text.gameObject.name == "2")
+                else if (sec != 0 || (sec == 0 && sname != null))
                 {
                     text.gameObject.SetActive(true);
-                    text.text = "name : " + sname + " score : " + sec.ToString();
+                    if(sname == "")
+                    { sname = " "; }
+                    GameManager.Game.s = sname;
+                    GameManager.Game.ss = sec;
+                    text.text = "name : " + GameManager.Game.s + " score : " + GameManager.Game.ss.ToString();
                 }
-                else if (text.gameObject.name == "3")
+                else if (thr != 0 || (thr == 0 && tname != null))
                 {
                     text.gameObject.SetActive(true);
-                    text.text = "name : " + tname + " score : " + thr.ToString();
+                    if (tname == "")
+                    { tname = " "; }
+                    GameManager.Game.t = tname;
+                    GameManager.Game.ts = thr;
+                    text.text = "name : " + GameManager.Game.t + " score : " + GameManager.Game.ts.ToString();
                 }
             }
         }

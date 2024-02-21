@@ -27,6 +27,12 @@ public class GameManager : MonoBehaviour
     {
         a, b, c
     }
+    public string f;
+    public string s;
+    public string t;
+    public int fs = 0;
+    public int ss = 0;
+    public int ts = 0;
     public List<string> board = new List<string>();
     public Dictionary<string, int> scores = new Dictionary<string, int>();
     public int score;
@@ -100,7 +106,7 @@ public class GameManager : MonoBehaviour
                     }
                     stopWatch.Stop();
                 }
-                if (monsterCount - killCount < 15 && !spawnBoss)
+                if (monsterCount - killCount < 28 && !spawnBoss)
                 {
                     rand = Random.Range(0, (int)stage + 3);
                     monsterCount++;
@@ -201,7 +207,7 @@ public class GameManager : MonoBehaviour
         {
             player.fuel = 100;
         }
-        else if(Input.GetKey(KeyCode.F6))
+        else if(Input.GetKeyDown(KeyCode.F6))
         {
             BossMonsterController boss = GameObject.FindObjectOfType<BossMonsterController>();
             if(boss!= null)
@@ -210,9 +216,11 @@ public class GameManager : MonoBehaviour
             }
             if(stage == stages.Stage2)
             {
+                stopSpawn = true;
+                result.active();
                 gameEnd();
             }
-            else { nextStage(); }
+            else { nextStage();stage = stages.Stage2; }
         }
     }
 }

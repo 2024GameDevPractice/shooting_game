@@ -642,11 +642,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 294813037304420496, guid: 7d6be177a4c925b48ad17384cfe4b961, type: 3}
       propertyPath: m_LocalScale.x
-      value: 16
+      value: 29
       objectReference: {fileID: 0}
     - target: {fileID: 294813037304420496, guid: 7d6be177a4c925b48ad17384cfe4b961, type: 3}
       propertyPath: m_LocalScale.y
-      value: 16
+      value: 29
       objectReference: {fileID: 0}
     - target: {fileID: 294813037304420496, guid: 7d6be177a4c925b48ad17384cfe4b961, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1964,7 +1964,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 'name : score:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2098,7 +2098,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 'name : score:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3432,7 +3432,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 'name : score:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

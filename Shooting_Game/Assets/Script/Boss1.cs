@@ -110,6 +110,7 @@ public class Boss1 : BossMonsterController
     }
     protected override void death()
     {
+        GameManager.Game.stopWatch.Start();
         base.death();
     }
 }

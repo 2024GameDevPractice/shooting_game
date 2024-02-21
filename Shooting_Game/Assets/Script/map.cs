@@ -15,6 +15,6 @@ public class map : MonoBehaviour
     void Update()
     {
         offset += Time.deltaTime / 2;
-        render.material.mainTextureOffset =  new Vector2(rand * offset / 4,offset);
+        render.material.mainTextureOffset =  new Vector2(rand * offset / 6.5f,offset);
     }
 }

@@ -10,7 +10,7 @@ public class Boss2 : BossMonsterController
     {
         bulletName1 = "Projectileb";
         bulletName2 = "Projectilea";
-        moveSpeed = 1.25f;
+        moveSpeed = 0.9f;
         attackSpeed = 0.8f;
         fielldtime = 0;
         y = 1;
@@ -43,7 +43,7 @@ public class Boss2 : BossMonsterController
                     isAttack = true;
                     break;
                 case 1:
-                    attackSpeed = 0.4f;
+                    attackSpeed = 0.6f;
                     isAttack = false;
                     break;
             }
@@ -72,12 +72,12 @@ public class Boss2 : BossMonsterController
     }
     protected override void Update()
     {
-        if(transform.position.x < -3.5f)
+        if(transform.position.x < -3f)
         {
             x = -(x + Random.Range(0.1f, 0.3f));
             fielldtime = 0;
         }
-        else if(transform.position.x > 3.5f)
+        else if(transform.position.x > 3f)
         {
             x = -(x + Random.Range(0.1f, 0.3f));
             fielldtime = 0;
