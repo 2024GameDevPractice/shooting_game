@@ -33,7 +33,6 @@ public class GameManager : MonoBehaviour
     public int fs = 0;
     public int ss = 0;
     public int ts = 0;
-    public List<string> board = new List<string>();
     public Dictionary<string, int> scores = new Dictionary<string, int>();
     public int score;
     public int stageLevel;
