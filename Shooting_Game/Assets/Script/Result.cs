@@ -5,7 +5,6 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 using static GameManager;
-
 public class Result : MonoBehaviour
 {
     private TMP_Text[] texts;

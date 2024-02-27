@@ -27,9 +27,9 @@ public class GameManager : MonoBehaviour
     {
         a, b, c
     }
-    public string f;
-    public string s;
-    public string t;
+    public string f ="";
+    public string s="";
+    public string t="";
     public int fs = 0;
     public int ss = 0;
     public int ts = 0;
@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
     public stages stage;
     public Result result;
     public ScoreBoard scoreboard;
+    public int score2;
     public void gameSet()
     {
         GameObject go = (GameObject)Instantiate(Resources.Load("Prefab/Player"), new Vector3(0, -3.5f, 0), new Quaternion(0,0,0,0));
@@ -75,6 +76,8 @@ public class GameManager : MonoBehaviour
     {
         invincibility = true;
         stopWatch.Stop();
+        score2 = score;
+        StopAllCoroutines();
     }
     public void nextStage()
     {
@@ -192,7 +195,7 @@ public class GameManager : MonoBehaviour
         }
         else if(Input.GetKey(KeyCode.F3))
         {
-            player.skillCount = 0;
+            player.skillCount = 4;
             player.skill1.StopAllCoroutines();
             player.skill1.inCooltime = false;
             player.skill2.StopAllCoroutines();

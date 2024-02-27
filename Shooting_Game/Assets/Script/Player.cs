@@ -122,51 +122,52 @@ public class Player : MonoBehaviour
         }
         if(GameManager.Game.stopSpawn)
         {
-            if (Input.GetKeyDown(KeyCode.Q))
+            
+        }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (skillCount > 0)
             {
-                if (skillCount > 0)
+                if (!skill1.inCooltime)
                 {
-                    if (!skill1.inCooltime)
-                    {
-                        skillCount--;
-                        skill1.StartCoroutine(skill1.useSkill());
-                    }
-                    else
-                    {
-                        text1.text = "스킬 재사용 대기 중 입니다.";
-                        text1.gameObject.SetActive(true);
-                        Invoke("invisible", 1f);
-                    }
+                    skillCount--;
+                    skill1.StartCoroutine(skill1.useSkill());
                 }
                 else
                 {
-                    text1.text = "스킬 사용 가능 횟수를 다 사용했습니다.";
+                    text1.text = "스킬 재사용 대기 중 입니다.";
                     text1.gameObject.SetActive(true);
                     Invoke("invisible", 1f);
                 }
             }
-            else if (Input.GetKeyDown(KeyCode.E))
+            else
             {
-                if (skillCount > 0)
+                text1.text = "스킬 사용 가능 횟수를 다 사용했습니다.";
+                text1.gameObject.SetActive(true);
+                Invoke("invisible", 1f);
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (skillCount > 0)
+            {
+                if (!skill2.inCooltime)
                 {
-                    if (!skill2.inCooltime)
-                    {
-                        skillCount--;
-                        skill2.StartCoroutine(skill2.useSkill());
-                    }
-                    else
-                    {
-                        text1.text = "스킬 재사용 대기 중 입니다.";
-                        text1.gameObject.SetActive(true);
-                        Invoke("invisible", 1f);
-                    }
+                    skillCount--;
+                    skill2.StartCoroutine(skill2.useSkill());
                 }
                 else
                 {
-                    text1.text = "스킬 사용 가능 횟수를 다 사용했습니다.";
+                    text1.text = "스킬 재사용 대기 중 입니다.";
                     text1.gameObject.SetActive(true);
                     Invoke("invisible", 1f);
                 }
+            }
+            else
+            {
+                text1.text = "스킬 사용 가능 횟수를 다 사용했습니다.";
+                text1.gameObject.SetActive(true);
+                Invoke("invisible", 1f);
             }
         }
     }
@@ -197,6 +198,11 @@ public class Player : MonoBehaviour
         {
             fuel--;
             slider2.value = fuel / 100;
+            if(fuel <= 0)
+            {
+                anime.Play("death");
+                Invoke("death", 0.75f);
+            }
             yield return new WaitForSeconds(0.8f);
         }
     }

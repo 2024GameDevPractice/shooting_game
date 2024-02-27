@@ -29,6 +29,7 @@ public class BossMonsterController : MonoBehaviour
         if(hp <= 0)
         {
             anime.Play("death");
+            transform.gameObject.AddComponent<AudioSource>().clip = Resources.Load<AudioClip>("Sound/EXPLOSION_Distorted_01_Long_stereo");
             Invoke("death", 0.375f);
         }
     }
